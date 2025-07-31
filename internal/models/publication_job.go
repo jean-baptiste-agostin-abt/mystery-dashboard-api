@@ -13,8 +13,8 @@ type PublicationJob struct {
 	UserID      string       `json:"user_id" db:"user_id"`
 	Platform    string       `json:"platform" db:"platform"`
 	Status      string       `json:"status" db:"status"`
-	Config      string       `json:"config" db:"config"` // JSON string with platform-specific config
-	ExternalID  string       `json:"external_id" db:"external_id"` // Platform's video ID
+	Config      string       `json:"config" db:"config"`             // JSON string with platform-specific config
+	ExternalID  string       `json:"external_id" db:"external_id"`   // Platform's video ID
 	ExternalURL string       `json:"external_url" db:"external_url"` // Platform's video URL
 	ErrorMsg    string       `json:"error_message,omitempty" db:"error_message"`
 	RetryCount  int          `json:"retry_count" db:"retry_count"`

@@ -152,8 +152,8 @@ cp .env.example .env
 3. Start development environment:
 ```bash
 make docker-compose-up    # Start all services
-make migrate-up          # Run database migrations
 make dev                 # Start development server with hot reload
+# GORM automatically runs migrations on startup
 ```
 
 ### Manual Installation
@@ -168,12 +168,7 @@ make deps
 docker-compose up -d mysql redis prometheus grafana jaeger
 ```
 
-3. Run migrations:
-```bash
-make migrate-up
-```
-
-4. Start the application:
+3. Start the application (migrations run automatically):
 ```bash
 make run
 ```
@@ -258,11 +253,6 @@ make format            # Format code
 make vet               # Run go vet
 make security          # Security checks
 
-# Database operations
-make migrate-up        # Apply migrations
-make migrate-down      # Rollback migration
-make migrate-create NAME=migration_name  # Create new migration
-
 # Development server
 make dev               # Hot reload development server
 make run               # Build and run locally
@@ -316,7 +306,9 @@ make security # gosec security analysis
 3. Make your changes
 4. Add tests for new functionality
 5. Ensure all tests pass
-6. Submit a pull request
+6. Build the project locally to ensure it compiles
+7. Update this README and `AGENTS.md` if needed
+8. Submit a pull request
 
 ## License
 

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yourorg/mysteryfactory/pkg/aws"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
-	"github.com/yourorg/mysteryfactory/pkg/metrics"
+	"github.com/jibe0123/mysteryfactory/pkg/aws"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/pkg/metrics"
 )
 
 // aiService implements the AIService interface

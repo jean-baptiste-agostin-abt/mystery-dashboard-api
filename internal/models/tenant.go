@@ -7,14 +7,14 @@ import (
 
 // Tenant represents a tenant in the multi-tenant system
 type Tenant struct {
-	ID          string         `json:"id" db:"id"`
-	Name        string         `json:"name" db:"name"`
-	Domain      string         `json:"domain" db:"domain"`
-	Settings    string         `json:"settings" db:"settings"` // JSON string
-	Status      string         `json:"status" db:"status"`
-	CreatedAt   time.Time      `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time      `json:"updated_at" db:"updated_at"`
-	DeletedAt   sql.NullTime   `json:"deleted_at,omitempty" db:"deleted_at"`
+	ID        string       `json:"id" db:"id"`
+	Name      string       `json:"name" db:"name"`
+	Domain    string       `json:"domain" db:"domain"`
+	Settings  string       `json:"settings" db:"settings"` // JSON string
+	Status    string       `json:"status" db:"status"`
+	CreatedAt time.Time    `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time    `json:"updated_at" db:"updated_at"`
+	DeletedAt sql.NullTime `json:"deleted_at,omitempty" db:"deleted_at"`
 }
 
 // TenantRepository defines the interface for tenant operations

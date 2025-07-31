@@ -75,6 +75,6 @@ CMD ["./mysteryfactory-api"]
 LABEL maintainer="Mystery Factory Team"
 LABEL version="${VERSION}"
 LABEL description="Mystery Factory API - AI-powered video content management platform"
-LABEL org.opencontainers.image.source="https://github.com/yourorg/mysteryfactory"
-LABEL org.opencontainers.image.documentation="https://github.com/yourorg/mysteryfactory/blob/main/README.md"
+LABEL org.opencontainers.image.source="https://github.com/jibe0123/mysteryfactory"
+LABEL org.opencontainers.image.documentation="https://github.com/jibe0123/mysteryfactory/blob/main/README.md"
 LABEL org.opencontainers.image.licenses="MIT"

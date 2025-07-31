@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yourorg/mysteryfactory/internal/models"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/internal/models"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 )
 
 // analyticsService implements the AnalyticsService interface

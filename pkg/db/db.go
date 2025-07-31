@@ -9,7 +9,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/yourorg/mysteryfactory/internal/models"
+	"github.com/jibe0123/mysteryfactory/internal/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -79,6 +79,7 @@ func (db *DB) AutoMigrate() error {
 		&models.VideoStatsSnapshot{},
 		&models.PublicationJob{},
 		&models.Tenant{},
+		&models.Workspace{},
 	)
 	if err != nil {
 		return fmt.Errorf("failed to run auto-migrations: %w", err)

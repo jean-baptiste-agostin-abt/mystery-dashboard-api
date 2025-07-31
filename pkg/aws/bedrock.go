@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/bedrockruntime"
 	"github.com/aws/aws-sdk-go-v2/service/bedrockruntime/types"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 )
 
 // MessageRole represents the role of a message in a conversation
@@ -252,11 +252,11 @@ type bedrockClient struct {
 
 // BedrockConfig holds configuration for Bedrock client
 type BedrockConfig struct {
-	Region          string
-	MaxRetries      int
-	RetryDelay      time.Duration
-	RequestTimeout  time.Duration
-	DefaultModelID  string
+	Region           string
+	MaxRetries       int
+	RetryDelay       time.Duration
+	RequestTimeout   time.Duration
+	DefaultModelID   string
 	DefaultMaxTokens int
 }
 
@@ -264,11 +264,11 @@ type BedrockConfig struct {
 func NewBedrockClient(cfg *BedrockConfig, logger *logger.Logger) (BedrockClient, error) {
 	if cfg == nil {
 		cfg = &BedrockConfig{
-			Region:          "us-east-1",
-			MaxRetries:      3,
-			RetryDelay:      time.Second,
-			RequestTimeout:  30 * time.Second,
-			DefaultModelID:  string(ModelClaude4Sonnet),
+			Region:           "us-east-1",
+			MaxRetries:       3,
+			RetryDelay:       time.Second,
+			RequestTimeout:   30 * time.Second,
+			DefaultModelID:   string(ModelClaude4Sonnet),
 			DefaultMaxTokens: 8192,
 		}
 	}
@@ -315,7 +315,7 @@ func (c *bedrockClient) InvokeModel(ctx context.Context, req *InvokeModelRequest
 		"anthropic_version": "bedrock-2023-05-31",
 		"max_tokens":        req.MaxTokens,
 		"temperature":       req.Temperature,
-		"top_p":            req.TopP,
+		"top_p":             req.TopP,
 		"messages": []map[string]interface{}{
 			{
 				"role":    "user",
@@ -402,8 +402,8 @@ func (c *bedrockClient) InvokeModel(ctx context.Context, req *InvokeModelRequest
 		ProcessedAt: time.Now(),
 	}
 
-	c.logger.Info("Bedrock model invoked successfully", 
-		"model_id", req.ModelID, 
+	c.logger.Info("Bedrock model invoked successfully",
+		"model_id", req.ModelID,
 		"tokens_used", result.TokensUsed,
 		"content_length", len(result.Content))
 
@@ -427,7 +427,7 @@ func (c *bedrockClient) InvokeModelWithStreaming(ctx context.Context, req *Invok
 		"anthropic_version": "bedrock-2023-05-31",
 		"max_tokens":        req.MaxTokens,
 		"temperature":       req.Temperature,
-		"top_p":            req.TopP,
+		"top_p":             req.TopP,
 		"messages": []map[string]interface{}{
 			{
 				"role":    "user",
@@ -599,8 +599,8 @@ func (c *bedrockClient) InvokeConversation(ctx context.Context, req *Conversatio
 		"anthropic_version": modelConfig.AnthropicVersion,
 		"max_tokens":        maxTokens,
 		"temperature":       temperature,
-		"top_p":            topP,
-		"messages":         messages,
+		"top_p":             topP,
+		"messages":          messages,
 	}
 
 	// Add system message if present
@@ -688,8 +688,8 @@ func (c *bedrockClient) InvokeConversation(ctx context.Context, req *Conversatio
 		ProcessedAt: time.Now(),
 	}
 
-	c.logger.Info("Bedrock conversation completed successfully", 
-		"model", req.Model, 
+	c.logger.Info("Bedrock conversation completed successfully",
+		"model", req.Model,
 		"tokens_used", result.TokensUsed,
 		"content_length", len(result.Content))
 
@@ -753,8 +753,8 @@ func (c *bedrockClient) InvokeConversationWithStreaming(ctx context.Context, req
 		"anthropic_version": modelConfig.AnthropicVersion,
 		"max_tokens":        maxTokens,
 		"temperature":       temperature,
-		"top_p":            topP,
-		"messages":         messages,
+		"top_p":             topP,
+		"messages":          messages,
 	}
 
 	// Add system message if present

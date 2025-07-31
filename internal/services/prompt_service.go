@@ -8,16 +8,16 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 	"gopkg.in/yaml.v3"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
 )
 
 // promptService implements the PromptService interface
 type promptService struct {
-	prompts    map[string]*Prompt
+	prompts     map[string]*Prompt
 	catalogPath string
-	logger     *logger.Logger
-	lastLoaded time.Time
+	logger      *logger.Logger
+	lastLoaded  time.Time
 }
 
 // PromptCatalog represents the structure of the YAML prompt catalog
@@ -520,7 +520,7 @@ func (s *promptService) validateDataType(value interface{}, expectedType string)
 // extractTemplateVariables extracts variable names from a template string
 func extractTemplateVariables(templateStr string) []string {
 	var variables []string
-	
+
 	// Simple regex-like extraction for {{variable}} patterns
 	parts := strings.Split(templateStr, "{{")
 	for i := 1; i < len(parts); i++ {
@@ -531,7 +531,7 @@ func extractTemplateVariables(templateStr string) []string {
 			}
 		}
 	}
-	
+
 	return variables
 }
 

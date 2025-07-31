@@ -10,9 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
+	"github.com/jibe0123/mysteryfactory/internal/models"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 	"github.com/rs/cors"
-	"github.com/yourorg/mysteryfactory/internal/models"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
 	"golang.org/x/time/rate"
 )
 

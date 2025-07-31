@@ -1,0 +1,569 @@
+version: "1.0"
+description: "Mystery Factory AI Prompt Catalog"
+updated_at: "2025-08-01T00:18:00Z"
+
+prompts:
+  # Magic Brush Prompts
+  magic_brush/title_gen:
+    name: "Video Title Generator"
+    description: "Generates engaging video titles based on content and context"
+    category: "magic_brush"
+    template: |
+      You are an expert content creator specializing in viral video titles. Generate 5 compelling, SEO-optimized titles for a video with the following details:
+      
+      Video Topic: {{topic}}
+      Target Platform: {{platform}}
+      Target Audience: {{audience}}
+      Content Type: {{content_type}}
+      Tone: {{tone}}
+      Language: {{language}}
+      
+      Requirements:
+      - Titles should be {{max_length}} characters or less
+      - Include relevant keywords for SEO
+      - Make titles click-worthy but not clickbait
+      - Consider platform-specific best practices
+      - Match the specified tone ({{tone}})
+      
+      Return only the 5 titles, numbered 1-5, without additional commentary.
+    variables:
+      - name: "topic"
+        type: "string"
+        description: "The main topic or subject of the video"
+        required: true
+      - name: "platform"
+        type: "string"
+        description: "Target platform (youtube, tiktok, instagram, etc.)"
+        required: true
+        default: "youtube"
+      - name: "audience"
+        type: "string"
+        description: "Target audience description"
+        required: false
+        default: "general audience"
+      - name: "content_type"
+        type: "string"
+        description: "Type of content (tutorial, review, entertainment, etc.)"
+        required: false
+        default: "general"
+      - name: "tone"
+        type: "string"
+        description: "Desired tone (professional, casual, creative, formal)"
+        required: false
+        default: "engaging"
+      - name: "language"
+        type: "string"
+        description: "Language code (en, es, fr, etc.)"
+        required: false
+        default: "en"
+      - name: "max_length"
+        type: "integer"
+        description: "Maximum character length for titles"
+        required: false
+        default: 60
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  magic_brush/description_gen:
+    name: "Video Description Generator"
+    description: "Creates comprehensive video descriptions with SEO optimization"
+    category: "magic_brush"
+    template: |
+      Create a compelling video description for the following video:
+      
+      Title: {{title}}
+      Topic: {{topic}}
+      Platform: {{platform}}
+      Duration: {{duration}} minutes
+      Target Audience: {{audience}}
+      Key Points: {{key_points}}
+      Call to Action: {{cta}}
+      Language: {{language}}
+      
+      Requirements:
+      - Start with a hook that grabs attention
+      - Include relevant keywords naturally
+      - Structure with clear paragraphs
+      - Add appropriate hashtags for the platform
+      - Include the specified call to action
+      - Keep under {{max_length}} characters
+      - Match platform best practices
+      
+      Format the response as a ready-to-use description.
+    variables:
+      - name: "title"
+        type: "string"
+        description: "Video title"
+        required: true
+      - name: "topic"
+        type: "string"
+        description: "Main video topic"
+        required: true
+      - name: "platform"
+        type: "string"
+        description: "Target platform"
+        required: true
+      - name: "duration"
+        type: "integer"
+        description: "Video duration in minutes"
+        required: false
+        default: 5
+      - name: "audience"
+        type: "string"
+        description: "Target audience"
+        required: false
+        default: "general audience"
+      - name: "key_points"
+        type: "string"
+        description: "Key points covered in the video"
+        required: false
+      - name: "cta"
+        type: "string"
+        description: "Call to action"
+        required: false
+        default: "like and subscribe"
+      - name: "language"
+        type: "string"
+        description: "Language code"
+        required: false
+        default: "en"
+      - name: "max_length"
+        type: "integer"
+        description: "Maximum character length"
+        required: false
+        default: 5000
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  magic_brush/tags_gen:
+    name: "Video Tags Generator"
+    description: "Generates relevant tags and hashtags for video optimization"
+    category: "magic_brush"
+    template: |
+      Generate relevant tags and hashtags for a video with these details:
+      
+      Title: {{title}}
+      Topic: {{topic}}
+      Platform: {{platform}}
+      Category: {{category}}
+      Target Audience: {{audience}}
+      Language: {{language}}
+      
+      Generate:
+      1. 10-15 relevant keywords/tags for SEO
+      2. 5-10 trending hashtags for the platform
+      3. 3-5 niche-specific tags
+      
+      Requirements:
+      - Mix of broad and specific tags
+      - Include trending terms when relevant
+      - Consider platform-specific tag formats
+      - Avoid overly competitive tags
+      - Include long-tail keywords
+      
+      Format:
+      Keywords: [comma-separated list]
+      Hashtags: [space-separated with # symbols]
+      Niche Tags: [comma-separated list]
+    variables:
+      - name: "title"
+        type: "string"
+        description: "Video title"
+        required: true
+      - name: "topic"
+        type: "string"
+        description: "Main topic"
+        required: true
+      - name: "platform"
+        type: "string"
+        description: "Target platform"
+        required: true
+      - name: "category"
+        type: "string"
+        description: "Video category"
+        required: false
+        default: "general"
+      - name: "audience"
+        type: "string"
+        description: "Target audience"
+        required: false
+        default: "general"
+      - name: "language"
+        type: "string"
+        description: "Language code"
+        required: false
+        default: "en"
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  # Campaign Research Prompts
+  campaign/research:
+    name: "Campaign Research Agent"
+    description: "Conducts comprehensive research for campaign planning"
+    category: "campaign"
+    template: |
+      Conduct comprehensive research for a video content campaign with the following parameters:
+      
+      Campaign Goal: {{goal}}
+      Industry/Niche: {{industry}}
+      Target Platforms: {{platforms}}
+      Target Audience: {{audience}}
+      Geographic Focus: {{geography}}
+      Language: {{language}}
+      Budget Range: {{budget}}
+      
+      Research Areas:
+      1. TRENDING TOPICS
+         - Current trending topics in {{industry}}
+         - Platform-specific trends for {{platforms}}
+         - Seasonal/timely content opportunities
+      
+      2. COMPETITOR ANALYSIS
+         - Top performing creators in {{industry}}
+         - Successful content formats and styles
+         - Content gaps and opportunities
+      
+      3. AUDIENCE INSIGHTS
+         - Demographics and psychographics of {{audience}}
+         - Content preferences and consumption patterns
+         - Optimal posting times and frequencies
+      
+      4. PLATFORM OPTIMIZATION
+         - Best practices for each platform: {{platforms}}
+         - Algorithm considerations
+         - Content format recommendations
+      
+      5. KEYWORD RESEARCH
+         - High-volume, low-competition keywords
+         - Long-tail keyword opportunities
+         - Hashtag strategies
+      
+      Provide actionable insights and specific recommendations for campaign execution.
+    variables:
+      - name: "goal"
+        type: "string"
+        description: "Campaign objective"
+        required: true
+      - name: "industry"
+        type: "string"
+        description: "Industry or niche"
+        required: true
+      - name: "platforms"
+        type: "array"
+        description: "Target platforms"
+        required: true
+      - name: "audience"
+        type: "string"
+        description: "Target audience description"
+        required: true
+      - name: "geography"
+        type: "string"
+        description: "Geographic focus"
+        required: false
+        default: "global"
+      - name: "language"
+        type: "string"
+        description: "Primary language"
+        required: false
+        default: "en"
+      - name: "budget"
+        type: "string"
+        description: "Budget range"
+        required: false
+        default: "moderate"
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  campaign/ideation:
+    name: "Campaign Ideation Agent"
+    description: "Generates creative content ideas based on research findings"
+    category: "campaign"
+    template: |
+      Based on the research findings, generate creative content ideas for this campaign:
+      
+      Campaign Goal: {{goal}}
+      Research Insights: {{research_data}}
+      Target Platforms: {{platforms}}
+      Content Themes: {{themes}}
+      Target Audience: {{audience}}
+      Content Pillars: {{pillars}}
+      
+      Generate 10-15 specific video content ideas that:
+      
+      1. ALIGN WITH GOALS
+         - Support the campaign objective: {{goal}}
+         - Address audience pain points and interests
+         - Leverage trending topics and opportunities
+      
+      2. PLATFORM OPTIMIZATION
+         - Suit the format and style of {{platforms}}
+         - Consider platform-specific features
+         - Optimize for each platform's algorithm
+      
+      3. CONTENT VARIETY
+         - Mix of educational, entertaining, and promotional content
+         - Different formats (tutorials, reviews, behind-scenes, etc.)
+         - Varying content lengths and complexities
+      
+      4. ENGAGEMENT POTENTIAL
+         - High shareability and viral potential
+         - Interactive elements and community building
+         - Clear calls-to-action
+      
+      For each idea, provide:
+      - Content title/concept
+      - Brief description (2-3 sentences)
+      - Target platform(s)
+      - Content format/style
+      - Key messaging points
+      - Estimated engagement potential (High/Medium/Low)
+      
+      Prioritize ideas by potential impact and feasibility.
+    variables:
+      - name: "goal"
+        type: "string"
+        description: "Campaign goal"
+        required: true
+      - name: "research_data"
+        type: "string"
+        description: "Key research findings"
+        required: true
+      - name: "platforms"
+        type: "array"
+        description: "Target platforms"
+        required: true
+      - name: "themes"
+        type: "string"
+        description: "Content themes"
+        required: false
+      - name: "audience"
+        type: "string"
+        description: "Target audience"
+        required: true
+      - name: "pillars"
+        type: "string"
+        description: "Content pillars"
+        required: false
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  campaign/validation:
+    name: "Campaign Validation Agent"
+    description: "Validates and optimizes campaign content ideas"
+    category: "campaign"
+    template: |
+      Validate and optimize the following campaign content ideas:
+      
+      Campaign Goal: {{goal}}
+      Content Ideas: {{content_ideas}}
+      Target Platforms: {{platforms}}
+      Budget Constraints: {{budget}}
+      Timeline: {{timeline}}
+      Brand Guidelines: {{brand_guidelines}}
+      
+      VALIDATION CRITERIA:
+      
+      1. GOAL ALIGNMENT (Score 1-10)
+         - How well does each idea support {{goal}}?
+         - Relevance to target audience
+         - Potential for achieving KPIs
+      
+      2. FEASIBILITY ASSESSMENT (Score 1-10)
+         - Production complexity and cost
+         - Resource requirements
+         - Timeline compatibility
+      
+      3. PLATFORM SUITABILITY (Score 1-10)
+         - Format compatibility with {{platforms}}
+         - Algorithm optimization potential
+         - Platform-specific best practices
+      
+      4. RISK ANALYSIS
+         - Content policy compliance
+         - Brand safety considerations
+         - Potential negative feedback risks
+      
+      5. PERFORMANCE PREDICTION
+         - Estimated reach and engagement
+         - Viral potential assessment
+         - ROI projections
+      
+      RECOMMENDATIONS:
+      - Rank ideas by overall score (Goal Alignment + Feasibility + Platform Suitability)
+      - Suggest optimizations for top-performing ideas
+      - Identify potential issues and mitigation strategies
+      - Recommend content calendar sequencing
+      - Propose A/B testing opportunities
+      
+      Provide final recommendations with rationale for campaign execution.
+    variables:
+      - name: "goal"
+        type: "string"
+        description: "Campaign goal"
+        required: true
+      - name: "content_ideas"
+        type: "string"
+        description: "Generated content ideas"
+        required: true
+      - name: "platforms"
+        type: "array"
+        description: "Target platforms"
+        required: true
+      - name: "budget"
+        type: "string"
+        description: "Budget constraints"
+        required: false
+      - name: "timeline"
+        type: "string"
+        description: "Campaign timeline"
+        required: false
+      - name: "brand_guidelines"
+        type: "string"
+        description: "Brand guidelines and restrictions"
+        required: false
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  # Content Analysis Prompts
+  analysis/sentiment:
+    name: "Content Sentiment Analyzer"
+    description: "Analyzes sentiment and emotional tone of content"
+    category: "analysis"
+    template: |
+      Analyze the sentiment and emotional tone of the following content:
+      
+      Content: {{content}}
+      Content Type: {{content_type}}
+      Platform: {{platform}}
+      Target Audience: {{audience}}
+      
+      ANALYSIS FRAMEWORK:
+      
+      1. OVERALL SENTIMENT
+         - Positive/Negative/Neutral (with confidence score)
+         - Emotional intensity (1-10 scale)
+         - Dominant emotions identified
+      
+      2. TONE ANALYSIS
+         - Professional/Casual/Formal/Conversational
+         - Authoritative/Friendly/Humorous/Serious
+         - Consistency throughout content
+      
+      3. AUDIENCE ALIGNMENT
+         - Appropriateness for {{audience}}
+         - Cultural sensitivity assessment
+         - Age-appropriate language and themes
+      
+      4. PLATFORM OPTIMIZATION
+         - Tone suitability for {{platform}}
+         - Engagement potential prediction
+         - Algorithm favorability assessment
+      
+      5. IMPROVEMENT RECOMMENDATIONS
+         - Suggested tone adjustments
+         - Emotional appeal enhancements
+         - Risk mitigation strategies
+      
+      Provide actionable insights for content optimization.
+    variables:
+      - name: "content"
+        type: "string"
+        description: "Content to analyze"
+        required: true
+      - name: "content_type"
+        type: "string"
+        description: "Type of content"
+        required: false
+        default: "video"
+      - name: "platform"
+        type: "string"
+        description: "Target platform"
+        required: false
+        default: "general"
+      - name: "audience"
+        type: "string"
+        description: "Target audience"
+        required: false
+        default: "general"
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"
+
+  # Translation and Localization
+  localization/translate:
+    name: "Content Translator"
+    description: "Translates content while preserving context and cultural nuances"
+    category: "localization"
+    template: |
+      Translate the following content from {{source_language}} to {{target_language}}:
+      
+      Original Content: {{content}}
+      Content Type: {{content_type}}
+      Target Platform: {{platform}}
+      Cultural Context: {{cultural_context}}
+      Tone: {{tone}}
+      
+      TRANSLATION REQUIREMENTS:
+      
+      1. ACCURACY
+         - Maintain original meaning and intent
+         - Preserve technical terms and brand names
+         - Ensure grammatical correctness
+      
+      2. CULTURAL ADAPTATION
+         - Adapt idioms and expressions
+         - Consider cultural sensitivities
+         - Localize references and examples
+      
+      3. PLATFORM OPTIMIZATION
+         - Adapt to {{platform}} conventions
+         - Consider character limits and formatting
+         - Maintain SEO effectiveness
+      
+      4. TONE PRESERVATION
+         - Keep the {{tone}} consistent
+         - Adapt humor and emotional appeals
+         - Maintain brand voice
+      
+      Provide the translated content ready for publication, along with any cultural adaptation notes.
+    variables:
+      - name: "content"
+        type: "string"
+        description: "Content to translate"
+        required: true
+      - name: "source_language"
+        type: "string"
+        description: "Source language code"
+        required: true
+      - name: "target_language"
+        type: "string"
+        description: "Target language code"
+        required: true
+      - name: "content_type"
+        type: "string"
+        description: "Type of content"
+        required: false
+        default: "general"
+      - name: "platform"
+        type: "string"
+        description: "Target platform"
+        required: false
+        default: "general"
+      - name: "cultural_context"
+        type: "string"
+        description: "Cultural context information"
+        required: false
+      - name: "tone"
+        type: "string"
+        description: "Desired tone"
+        required: false
+        default: "neutral"
+    version: "1.0"
+    created_at: "2025-08-01T00:18:00Z"
+    updated_at: "2025-08-01T00:18:00Z"

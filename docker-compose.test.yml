@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  mysql-test:
+    image: mysql:8.0
+    container_name: mysteryfactory-mysql-test
+    environment:
+      MYSQL_ROOT_PASSWORD: testpassword
+      MYSQL_DATABASE: mysteryfactory_test
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_test_data:/var/lib/mysql
+      - ./migrations:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - test-network
+
+  redis-test:
+    image: redis:7-alpine
+    container_name: mysteryfactory-redis-test
+    ports:
+      - "6380:6379"
+    networks:
+      - test-network
+
+  jaeger-test:
+    image: jaegertracing/all-in-one:latest
+    container_name: mysteryfactory-jaeger-test
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    networks:
+      - test-network
+
+  app-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: mysteryfactory-app-test
+    environment:
+      - ENVIRONMENT=test
+      - DATABASE_DSN=testuser:testpass@tcp(mysql-test:3306)/mysteryfactory_test?charset=utf8mb4&parseTime=True&loc=Local
+      - JWT_SECRET=test-jwt-secret-key-for-testing-only
+      - LOG_LEVEL=debug
+      - JAEGER_ENDPOINT=http://jaeger-test:14268/api/traces
+      - PORT=8080
+    ports:
+      - "8081:8080"
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_started
+      jaeger-test:
+        condition: service_started
+    networks:
+      - test-network
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["go", "test", "./...", "-v", "-cover"]
+
+volumes:
+  mysql_test_data:
+
+networks:
+  test-network:
+    driver: bridge

@@ -5,10 +5,15 @@ import (
 	"fmt"
 	"time"
 
+	backoff "github.com/cenkalti/backoff/v4"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/mysql"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/yourorg/mysteryfactory/internal/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"gorm.io/plugin/opentelemetry/tracing"
 )
 
 // DB wraps gorm.DB with additional functionality
@@ -18,22 +23,27 @@ type DB struct {
 
 // New creates a new GORM database connection
 func New(dsn string) (*DB, error) {
-	// Configure GORM with custom logger
 	config := &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-		NowFunc: func() time.Time {
-			return time.Now().UTC()
-		},
+		Logger:  logger.Default.LogMode(logger.Info),
+		NowFunc: func() time.Time { return time.Now().UTC() },
 	}
 
-	// Open database connection
-	db, err := gorm.Open(mysql.Open(dsn), config)
-	if err != nil {
+	var gormDB *gorm.DB
+	operation := func() error {
+		var err error
+		gormDB, err = gorm.Open(mysql.Open(dsn), config)
+		return err
+	}
+	b := backoff.NewExponentialBackOff()
+	if err := backoff.Retry(operation, b); err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
 
-	// Get underlying sql.DB to configure connection pool
-	sqlDB, err := db.DB()
+	if err := gormDB.Use(tracing.NewPlugin()); err != nil {
+		return nil, fmt.Errorf("failed to enable tracing: %w", err)
+	}
+
+	sqlDB, err := gormDB.DB()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get underlying sql.DB: %w", err)
 	}
@@ -48,7 +58,7 @@ func New(dsn string) (*DB, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	return &DB{DB: db}, nil
+	return &DB{DB: gormDB}, nil
 }
 
 // Close closes the database connection
@@ -131,4 +141,19 @@ func (r *Repository) Paginate(limit, offset int) *gorm.DB {
 		offset = 0
 	}
 	return r.db.Limit(limit).Offset(offset)
+}
+
+// RunMigrations applies database migrations from the specified directory.
+func RunMigrations(dsn string) error {
+	m, err := migrate.New(
+		"file://db/migrations",
+		"mysql://"+dsn,
+	)
+	if err != nil {
+		return err
+	}
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		return err
+	}
+	return nil
 }

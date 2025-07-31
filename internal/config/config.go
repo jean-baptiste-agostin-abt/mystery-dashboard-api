@@ -17,6 +17,9 @@ type Config struct {
 	WriteTimeout int    `mapstructure:"WRITE_TIMEOUT"`
 	IdleTimeout  int    `mapstructure:"IDLE_TIMEOUT"`
 
+	// CORS configuration
+	CORSAllowedOrigins string `mapstructure:"CORS_ALLOWED_ORIGINS"`
+
 	// Database configuration
 	DatabaseDSN string `mapstructure:"DATABASE_DSN"`
 
@@ -85,6 +88,7 @@ func setDefaults() {
 	viper.SetDefault("WRITE_TIMEOUT", 30)
 	viper.SetDefault("IDLE_TIMEOUT", 120)
 	viper.SetDefault("LOG_LEVEL", "info")
+	viper.SetDefault("CORS_ALLOWED_ORIGINS", "http://localhost:3000")
 	viper.SetDefault("JWT_EXPIRATION", 3600) // 1 hour in seconds
 	viper.SetDefault("JAEGER_ENDPOINT", "http://localhost:14268/api/traces")
 	viper.SetDefault("AWS_REGION", "us-east-1")
@@ -119,7 +123,7 @@ func validate(config *Config) error {
 		}
 	}
 	if !isValidEnv {
-		return fmt.Errorf("invalid environment: %s (must be one of: %s)", 
+		return fmt.Errorf("invalid environment: %s (must be one of: %s)",
 			config.Environment, strings.Join(validEnvs, ", "))
 	}
 
@@ -133,7 +137,7 @@ func validate(config *Config) error {
 		}
 	}
 	if !isValidLogLevel {
-		return fmt.Errorf("invalid log level: %s (must be one of: %s)", 
+		return fmt.Errorf("invalid log level: %s (must be one of: %s)",
 			config.LogLevel, strings.Join(validLogLevels, ", "))
 	}
 

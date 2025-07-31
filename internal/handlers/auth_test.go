@@ -8,11 +8,11 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jibe0123/mysteryfactory/internal/config"
+	"github.com/jibe0123/mysteryfactory/pkg/db"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yourorg/mysteryfactory/internal/config"
-	"github.com/yourorg/mysteryfactory/pkg/db"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
 )
 
 func setupTestRouter() (*gin.Engine, *AuthHandler) {

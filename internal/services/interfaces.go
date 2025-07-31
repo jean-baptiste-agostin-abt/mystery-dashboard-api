@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/yourorg/mysteryfactory/internal/models"
+	"github.com/jibe0123/mysteryfactory/internal/models"
 )
 
 // VideoService defines the interface for video-related business logic
@@ -35,7 +35,7 @@ type VideoService interface {
 type AIService interface {
 	// Magic Brush operations (real-time AI generation)
 	GenerateMagicBrush(ctx context.Context, tenantID string, req *MagicBrushRequest) (*MagicBrushResponse, error)
-	
+
 	// AI processing operations
 	ProcessWithBedrock(ctx context.Context, promptKey string, input map[string]interface{}) (map[string]interface{}, error)
 }
@@ -109,12 +109,12 @@ type PromptService interface {
 
 // MagicBrushRequest represents a request for magic brush generation
 type MagicBrushRequest struct {
-	VideoID     string                 `json:"video_id" validate:"required"`
-	BrushType   string                 `json:"brush_type" validate:"required,oneof=title description tags thumbnail"`
-	Context     map[string]interface{} `json:"context,omitempty"`
-	Language    string                 `json:"language,omitempty" validate:"omitempty,len=2"`
-	Tone        string                 `json:"tone,omitempty" validate:"omitempty,oneof=professional casual creative formal"`
-	MaxLength   int                    `json:"max_length,omitempty" validate:"omitempty,min=1,max=1000"`
+	VideoID   string                 `json:"video_id" validate:"required"`
+	BrushType string                 `json:"brush_type" validate:"required,oneof=title description tags thumbnail"`
+	Context   map[string]interface{} `json:"context,omitempty"`
+	Language  string                 `json:"language,omitempty" validate:"omitempty,len=2"`
+	Tone      string                 `json:"tone,omitempty" validate:"omitempty,oneof=professional casual creative formal"`
+	MaxLength int                    `json:"max_length,omitempty" validate:"omitempty,min=1,max=1000"`
 }
 
 // MagicBrushResponse represents the response from magic brush generation
@@ -129,28 +129,28 @@ type MagicBrushResponse struct {
 
 // CreateCampaignRequest represents a request to create a new campaign
 type CreateCampaignRequest struct {
-	Name        string                 `json:"name" validate:"required,max=255"`
-	Goal        string                 `json:"goal" validate:"required,max=1000"`
-	Context     map[string]interface{} `json:"context" validate:"required"`
-	Theme       string                 `json:"theme,omitempty" validate:"max=255"`
-	Platforms   []string               `json:"platforms" validate:"required,min=1"`
-	Language    string                 `json:"language" validate:"required,len=2"`
-	Schedule    *CampaignSchedule      `json:"schedule,omitempty"`
-	Budget      float64                `json:"budget,omitempty" validate:"omitempty,min=0"`
-	MaxVideos   int                    `json:"max_videos,omitempty" validate:"omitempty,min=1,max=100"`
+	Name      string                 `json:"name" validate:"required,max=255"`
+	Goal      string                 `json:"goal" validate:"required,max=1000"`
+	Context   map[string]interface{} `json:"context" validate:"required"`
+	Theme     string                 `json:"theme,omitempty" validate:"max=255"`
+	Platforms []string               `json:"platforms" validate:"required,min=1"`
+	Language  string                 `json:"language" validate:"required,len=2"`
+	Schedule  *CampaignSchedule      `json:"schedule,omitempty"`
+	Budget    float64                `json:"budget,omitempty" validate:"omitempty,min=0"`
+	MaxVideos int                    `json:"max_videos,omitempty" validate:"omitempty,min=1,max=100"`
 }
 
 // UpdateCampaignRequest represents a request to update an existing campaign
 type UpdateCampaignRequest struct {
-	Name        *string                `json:"name,omitempty" validate:"omitempty,max=255"`
-	Goal        *string                `json:"goal,omitempty" validate:"omitempty,max=1000"`
-	Context     map[string]interface{} `json:"context,omitempty"`
-	Theme       *string                `json:"theme,omitempty" validate:"omitempty,max=255"`
-	Platforms   []string               `json:"platforms,omitempty" validate:"omitempty,min=1"`
-	Language    *string                `json:"language,omitempty" validate:"omitempty,len=2"`
-	Schedule    *CampaignSchedule      `json:"schedule,omitempty"`
-	Budget      *float64               `json:"budget,omitempty" validate:"omitempty,min=0"`
-	MaxVideos   *int                   `json:"max_videos,omitempty" validate:"omitempty,min=1,max=100"`
+	Name      *string                `json:"name,omitempty" validate:"omitempty,max=255"`
+	Goal      *string                `json:"goal,omitempty" validate:"omitempty,max=1000"`
+	Context   map[string]interface{} `json:"context,omitempty"`
+	Theme     *string                `json:"theme,omitempty" validate:"omitempty,max=255"`
+	Platforms []string               `json:"platforms,omitempty" validate:"omitempty,min=1"`
+	Language  *string                `json:"language,omitempty" validate:"omitempty,len=2"`
+	Schedule  *CampaignSchedule      `json:"schedule,omitempty"`
+	Budget    *float64               `json:"budget,omitempty" validate:"omitempty,min=0"`
+	MaxVideos *int                   `json:"max_videos,omitempty" validate:"omitempty,min=1,max=100"`
 }
 
 // Campaign represents an AI campaign
@@ -179,26 +179,26 @@ type Campaign struct {
 type CampaignStatus string
 
 const (
-	CampaignStatusDraft      CampaignStatus = "draft"
-	CampaignStatusScheduled  CampaignStatus = "scheduled"
-	CampaignStatusRunning    CampaignStatus = "running"
-	CampaignStatusPaused     CampaignStatus = "paused"
-	CampaignStatusCompleted  CampaignStatus = "completed"
-	CampaignStatusFailed     CampaignStatus = "failed"
-	CampaignStatusCancelled  CampaignStatus = "cancelled"
+	CampaignStatusDraft     CampaignStatus = "draft"
+	CampaignStatusScheduled CampaignStatus = "scheduled"
+	CampaignStatusRunning   CampaignStatus = "running"
+	CampaignStatusPaused    CampaignStatus = "paused"
+	CampaignStatusCompleted CampaignStatus = "completed"
+	CampaignStatusFailed    CampaignStatus = "failed"
+	CampaignStatusCancelled CampaignStatus = "cancelled"
 )
 
 // CampaignSchedule represents the scheduling configuration for a campaign
 type CampaignSchedule struct {
-	Type        ScheduleType `json:"type" validate:"required,oneof=once daily weekly monthly cron"`
-	StartTime   time.Time    `json:"start_time" validate:"required"`
-	EndTime     *time.Time   `json:"end_time,omitempty"`
-	CronExpr    string       `json:"cron_expr,omitempty" validate:"required_if=Type cron"`
-	Timezone    string       `json:"timezone" validate:"required"`
-	MaxRuns     int          `json:"max_runs,omitempty" validate:"omitempty,min=1"`
-	RunCount    int          `json:"run_count" db:"run_count"`
-	LastRunAt   *time.Time   `json:"last_run_at,omitempty" db:"last_run_at"`
-	NextRunAt   *time.Time   `json:"next_run_at,omitempty" db:"next_run_at"`
+	Type      ScheduleType `json:"type" validate:"required,oneof=once daily weekly monthly cron"`
+	StartTime time.Time    `json:"start_time" validate:"required"`
+	EndTime   *time.Time   `json:"end_time,omitempty"`
+	CronExpr  string       `json:"cron_expr,omitempty" validate:"required_if=Type cron"`
+	Timezone  string       `json:"timezone" validate:"required"`
+	MaxRuns   int          `json:"max_runs,omitempty" validate:"omitempty,min=1"`
+	RunCount  int          `json:"run_count" db:"run_count"`
+	LastRunAt *time.Time   `json:"last_run_at,omitempty" db:"last_run_at"`
+	NextRunAt *time.Time   `json:"next_run_at,omitempty" db:"next_run_at"`
 }
 
 // ScheduleType represents the type of campaign schedule
@@ -214,46 +214,46 @@ const (
 
 // CampaignProgress represents the progress of a campaign
 type CampaignProgress struct {
-	CurrentStep    CampaignStep `json:"current_step" db:"current_step"`
-	ResearchDone   bool         `json:"research_done" db:"research_done"`
-	IdeationDone   bool         `json:"ideation_done" db:"ideation_done"`
-	ValidationDone bool         `json:"validation_done" db:"validation_done"`
-	VideosCreated  int          `json:"videos_created" db:"videos_created"`
-	VideosPublished int         `json:"videos_published" db:"videos_published"`
-	TotalCost      float64      `json:"total_cost" db:"total_cost"`
+	CurrentStep     CampaignStep `json:"current_step" db:"current_step"`
+	ResearchDone    bool         `json:"research_done" db:"research_done"`
+	IdeationDone    bool         `json:"ideation_done" db:"ideation_done"`
+	ValidationDone  bool         `json:"validation_done" db:"validation_done"`
+	VideosCreated   int          `json:"videos_created" db:"videos_created"`
+	VideosPublished int          `json:"videos_published" db:"videos_published"`
+	TotalCost       float64      `json:"total_cost" db:"total_cost"`
 }
 
 // CampaignStep represents the current step in a campaign workflow
 type CampaignStep string
 
 const (
-	CampaignStepResearch    CampaignStep = "research"
-	CampaignStepIdeation    CampaignStep = "ideation"
-	CampaignStepValidation  CampaignStep = "validation"
-	CampaignStepExecution   CampaignStep = "execution"
-	CampaignStepCompleted   CampaignStep = "completed"
+	CampaignStepResearch   CampaignStep = "research"
+	CampaignStepIdeation   CampaignStep = "ideation"
+	CampaignStepValidation CampaignStep = "validation"
+	CampaignStepExecution  CampaignStep = "execution"
+	CampaignStepCompleted  CampaignStep = "completed"
 )
 
 // Analytics response types
 
 // DashboardStats represents dashboard statistics
 type DashboardStats struct {
-	TotalVideos       int64   `json:"total_videos"`
-	TotalViews        int64   `json:"total_views"`
-	TotalEngagement   int64   `json:"total_engagement"`
-	AverageROI        float64 `json:"average_roi"`
-	ActiveCampaigns   int64   `json:"active_campaigns"`
-	PendingBatches    int64   `json:"pending_batches"`
-	MonthlyGrowth     float64 `json:"monthly_growth"`
+	TotalVideos       int64    `json:"total_videos"`
+	TotalViews        int64    `json:"total_views"`
+	TotalEngagement   int64    `json:"total_engagement"`
+	AverageROI        float64  `json:"average_roi"`
+	ActiveCampaigns   int64    `json:"active_campaigns"`
+	PendingBatches    int64    `json:"pending_batches"`
+	MonthlyGrowth     float64  `json:"monthly_growth"`
 	TopPerformingTags []string `json:"top_performing_tags"`
 }
 
 // PerformanceStats represents performance statistics
 type PerformanceStats struct {
-	Period           string                    `json:"period"`
-	VideoMetrics     *VideoPerformanceMetrics  `json:"video_metrics"`
+	Period           string                      `json:"period"`
+	VideoMetrics     *VideoPerformanceMetrics    `json:"video_metrics"`
 	PlatformMetrics  map[string]*PlatformMetrics `json:"platform_metrics"`
-	EngagementTrends []*EngagementTrend        `json:"engagement_trends"`
+	EngagementTrends []*EngagementTrend          `json:"engagement_trends"`
 }
 
 // VideoPerformanceMetrics represents video performance metrics
@@ -280,23 +280,23 @@ type PlatformMetrics struct {
 
 // EngagementTrend represents engagement trend data
 type EngagementTrend struct {
-	Date        time.Time `json:"date"`
-	Views       int64     `json:"views"`
-	Likes       int64     `json:"likes"`
-	Shares      int64     `json:"shares"`
-	Comments    int64     `json:"comments"`
-	Engagement  float64   `json:"engagement"`
+	Date       time.Time `json:"date"`
+	Views      int64     `json:"views"`
+	Likes      int64     `json:"likes"`
+	Shares     int64     `json:"shares"`
+	Comments   int64     `json:"comments"`
+	Engagement float64   `json:"engagement"`
 }
 
 // ROIAnalytics represents ROI analytics data
 type ROIAnalytics struct {
-	Period         string             `json:"period"`
-	TotalRevenue   float64            `json:"total_revenue"`
-	TotalCost      float64            `json:"total_cost"`
-	NetProfit      float64            `json:"net_profit"`
-	ROI            float64            `json:"roi"`
-	CostBreakdown  *CostBreakdown     `json:"cost_breakdown"`
-	RevenueStreams []*RevenueStream   `json:"revenue_streams"`
+	Period         string           `json:"period"`
+	TotalRevenue   float64          `json:"total_revenue"`
+	TotalCost      float64          `json:"total_cost"`
+	NetProfit      float64          `json:"net_profit"`
+	ROI            float64          `json:"roi"`
+	CostBreakdown  *CostBreakdown   `json:"cost_breakdown"`
+	RevenueStreams []*RevenueStream `json:"revenue_streams"`
 }
 
 // CostBreakdown represents cost breakdown data
@@ -317,13 +317,13 @@ type RevenueStream struct {
 
 // EngagementAnalytics represents engagement analytics data
 type EngagementAnalytics struct {
-	Period              string                     `json:"period"`
-	TotalEngagement     int64                      `json:"total_engagement"`
-	AverageEngagement   float64                    `json:"average_engagement"`
-	EngagementRate      float64                    `json:"engagement_rate"`
-	TopContent          []*ContentEngagement       `json:"top_content"`
+	Period               string                         `json:"period"`
+	TotalEngagement      int64                          `json:"total_engagement"`
+	AverageEngagement    float64                        `json:"average_engagement"`
+	EngagementRate       float64                        `json:"engagement_rate"`
+	TopContent           []*ContentEngagement           `json:"top_content"`
 	EngagementByPlatform map[string]*PlatformEngagement `json:"engagement_by_platform"`
-	EngagementTrends    []*EngagementTrend         `json:"engagement_trends"`
+	EngagementTrends     []*EngagementTrend             `json:"engagement_trends"`
 }
 
 // ContentEngagement represents content engagement data
@@ -396,12 +396,12 @@ type UpdatePromptRequest struct {
 
 // PromptTestResult represents the result of testing a prompt
 type PromptTestResult struct {
-	Success     bool                   `json:"success"`
-	Result      string                 `json:"result,omitempty"`
-	Error       string                 `json:"error,omitempty"`
-	Duration    time.Duration          `json:"duration"`
-	TokensUsed  int                    `json:"tokens_used,omitempty"`
-	Cost        float64                `json:"cost,omitempty"`
-	Metadata    map[string]interface{} `json:"metadata,omitempty"`
-	TestedAt    time.Time              `json:"tested_at"`
+	Success    bool                   `json:"success"`
+	Result     string                 `json:"result,omitempty"`
+	Error      string                 `json:"error,omitempty"`
+	Duration   time.Duration          `json:"duration"`
+	TokensUsed int                    `json:"tokens_used,omitempty"`
+	Cost       float64                `json:"cost,omitempty"`
+	Metadata   map[string]interface{} `json:"metadata,omitempty"`
+	TestedAt   time.Time              `json:"tested_at"`
 }

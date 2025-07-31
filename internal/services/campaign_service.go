@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 )
 
 // campaignService implements the CampaignService interface
@@ -74,7 +74,7 @@ func (s *campaignService) CreateCampaign(ctx context.Context, tenantID, userID s
 	if req.Schedule != nil {
 		campaign.Schedule = req.Schedule
 		campaign.Status = CampaignStatusScheduled
-		
+
 		// Calculate next run time
 		nextRun := calculateNextRunTime(req.Schedule)
 		if nextRun != nil {
@@ -341,7 +341,7 @@ func (s *campaignService) ExecuteResearchStep(ctx context.Context, tenantID, cam
 	campaign.UpdatedAt = time.Now()
 
 	s.logger.Info("Research step completed", "campaign_id", campaignID, "tenant_id", tenantID)
-	
+
 	// Automatically proceed to ideation step
 	return s.ExecuteIdeationStep(ctx, tenantID, campaignID)
 }
@@ -373,7 +373,7 @@ func (s *campaignService) ExecuteIdeationStep(ctx context.Context, tenantID, cam
 	campaign.UpdatedAt = time.Now()
 
 	s.logger.Info("Ideation step completed", "campaign_id", campaignID, "tenant_id", tenantID)
-	
+
 	// Automatically proceed to validation step
 	return s.ExecuteValidationStep(ctx, tenantID, campaignID)
 }
@@ -426,13 +426,13 @@ func (s *campaignService) ScheduleCampaign(ctx context.Context, tenantID, campai
 	// Update campaign with schedule
 	campaign.Schedule = schedule
 	campaign.Status = CampaignStatusScheduled
-	
+
 	// Calculate next run time
 	nextRun := calculateNextRunTime(schedule)
 	if nextRun != nil {
 		campaign.Schedule.NextRunAt = nextRun
 	}
-	
+
 	campaign.UpdatedAt = time.Now()
 
 	s.logger.Info("Campaign scheduled successfully", "campaign_id", campaignID, "tenant_id", tenantID, "next_run", campaign.Schedule.NextRunAt)
@@ -482,7 +482,7 @@ func (s *campaignService) ProcessScheduledCampaigns(ctx context.Context) error {
 				s.logger.Error("Failed to start scheduled campaign", "error", err, "campaign_id", campaign.ID)
 				continue
 			}
-			
+
 			// Update next run time
 			nextRun := calculateNextRunTime(campaign.Schedule)
 			if nextRun != nil {
@@ -490,7 +490,7 @@ func (s *campaignService) ProcessScheduledCampaigns(ctx context.Context) error {
 				campaign.Schedule.RunCount++
 				campaign.Schedule.LastRunAt = &now
 			}
-			
+
 			processed++
 		}
 	}

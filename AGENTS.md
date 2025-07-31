@@ -136,13 +136,7 @@ mystery-dashboard-api/
    ```bash
    docker-compose up -d mysql redis jaeger
    ```
-
-5. **Run database migrations**:
-   ```bash
-   go run cmd/migrate/main.go up
-   ```
-
-6. **Start the application**:
+5. **Start the application** (GORM will auto-run migrations):
    ```bash
    go run cmd/server/main.go
    ```
@@ -193,6 +187,7 @@ Before committing code, ensure:
 2. Code is properly formatted
 3. No linting errors
 4. Documentation is updated
+5. Project builds successfully (`go build ./cmd/server`)
 
 ## API Documentation
 
@@ -346,4 +341,4 @@ Use conventional commits format:
 
 ---
 
-This documentation serves as a comprehensive guide for developers working on the Mystery Factory API project. Keep it updated as the project evolves and new features are added.
+This documentation serves as a comprehensive guide for developers working on the Mystery Factory API project. Keep it updated as the project evolves and new features are added. Always update both this guide and `README.md` when introducing significant changes.

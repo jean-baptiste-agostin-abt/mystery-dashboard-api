@@ -1,8 +1,8 @@
 package models
 
 import (
-	"time"
 	"gorm.io/gorm"
+	"time"
 )
 
 // VideoStats represents analytics data for a video
@@ -18,16 +18,16 @@ type VideoStats struct {
 	Comments       int64          `json:"comments" gorm:"default:0"`
 	Shares         int64          `json:"shares" gorm:"default:0"`
 	Subscribers    int64          `json:"subscribers" gorm:"default:0"` // Gained from this video
-	WatchTime      int64          `json:"watch_time" gorm:"default:0"` // Total watch time in seconds
+	WatchTime      int64          `json:"watch_time" gorm:"default:0"`  // Total watch time in seconds
 	AvgWatchTime   float64        `json:"avg_watch_time" gorm:"type:decimal(10,2);default:0"`
 	ClickThrough   float64        `json:"click_through_rate" gorm:"type:decimal(5,4);default:0"` // CTR percentage
-	Engagement     float64        `json:"engagement_rate" gorm:"type:decimal(5,4);default:0"` // Engagement rate percentage
-	Revenue        float64        `json:"revenue" gorm:"type:decimal(10,2);default:0"` // Revenue generated
+	Engagement     float64        `json:"engagement_rate" gorm:"type:decimal(5,4);default:0"`    // Engagement rate percentage
+	Revenue        float64        `json:"revenue" gorm:"type:decimal(10,2);default:0"`           // Revenue generated
 	Impressions    int64          `json:"impressions" gorm:"default:0"`
-	Demographics   string         `json:"demographics" gorm:"type:json"` // JSON string with demographic data
+	Demographics   string         `json:"demographics" gorm:"type:json"`    // JSON string with demographic data
 	TrafficSources string         `json:"traffic_sources" gorm:"type:json"` // JSON string with traffic source data
-	DeviceTypes    string         `json:"device_types" gorm:"type:json"` // JSON string with device type data
-	Locations      string         `json:"locations" gorm:"type:json"` // JSON string with geographic data
+	DeviceTypes    string         `json:"device_types" gorm:"type:json"`    // JSON string with device type data
+	Locations      string         `json:"locations" gorm:"type:json"`       // JSON string with geographic data
 	LastSyncAt     time.Time      `json:"last_sync_at" gorm:"type:timestamp;not null"`
 	CreatedAt      time.Time      `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt      time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
@@ -48,15 +48,15 @@ type VideoStatsSnapshot struct {
 
 // StatsAggregation represents aggregated stats across platforms
 type StatsAggregation struct {
-	VideoID        string  `json:"video_id"`
-	TotalViews     int64   `json:"total_views"`
-	TotalLikes     int64   `json:"total_likes"`
-	TotalComments  int64   `json:"total_comments"`
-	TotalShares    int64   `json:"total_shares"`
-	TotalRevenue   float64 `json:"total_revenue"`
-	PlatformCount  int     `json:"platform_count"`
-	AvgEngagement  float64 `json:"avg_engagement"`
-	TopPlatform    string  `json:"top_platform"`
+	VideoID       string  `json:"video_id"`
+	TotalViews    int64   `json:"total_views"`
+	TotalLikes    int64   `json:"total_likes"`
+	TotalComments int64   `json:"total_comments"`
+	TotalShares   int64   `json:"total_shares"`
+	TotalRevenue  float64 `json:"total_revenue"`
+	PlatformCount int     `json:"platform_count"`
+	AvgEngagement float64 `json:"avg_engagement"`
+	TopPlatform   string  `json:"top_platform"`
 }
 
 // ROIMetrics represents return on investment calculations
@@ -283,7 +283,7 @@ func (s *VideoStats) CalculateEngagementRate() float64 {
 	if s.Views == 0 {
 		return 0
 	}
-	
+
 	totalEngagements := s.Likes + s.Comments + s.Shares
 	return (float64(totalEngagements) / float64(s.Views)) * 100
 }
@@ -293,7 +293,7 @@ func (s *VideoStats) CalculateClickThroughRate() float64 {
 	if s.Impressions == 0 {
 		return 0
 	}
-	
+
 	return (float64(s.Views) / float64(s.Impressions)) * 100
 }
 

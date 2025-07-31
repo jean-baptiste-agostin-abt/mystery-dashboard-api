@@ -37,8 +37,8 @@ const (
 type UserStatus string
 
 const (
-	StatusActive   UserStatus = "active"
-	StatusInactive UserStatus = "inactive"
+	StatusActive    UserStatus = "active"
+	StatusInactive  UserStatus = "inactive"
 	StatusSuspended UserStatus = "suspended"
 )
 

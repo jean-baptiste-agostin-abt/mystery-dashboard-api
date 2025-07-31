@@ -12,32 +12,32 @@ import (
 // Metrics holds all Prometheus metrics for the application
 type Metrics struct {
 	// HTTP metrics
-	HTTPRequestsTotal     *prometheus.CounterVec
-	HTTPRequestDuration   *prometheus.HistogramVec
-	HTTPRequestsInFlight  prometheus.Gauge
+	HTTPRequestsTotal    *prometheus.CounterVec
+	HTTPRequestDuration  *prometheus.HistogramVec
+	HTTPRequestsInFlight prometheus.Gauge
 
 	// AI processing metrics
-	AIRequestsTotal       *prometheus.CounterVec
-	AIRequestDuration     *prometheus.HistogramVec
-	AITokensUsed          *prometheus.CounterVec
-	AIRequestsInFlight    prometheus.Gauge
+	AIRequestsTotal    *prometheus.CounterVec
+	AIRequestDuration  *prometheus.HistogramVec
+	AITokensUsed       *prometheus.CounterVec
+	AIRequestsInFlight prometheus.Gauge
 
 	// Database metrics
-	DBConnectionsActive   prometheus.Gauge
-	DBConnectionsIdle     prometheus.Gauge
-	DBQueriesTotal        *prometheus.CounterVec
-	DBQueryDuration       *prometheus.HistogramVec
+	DBConnectionsActive prometheus.Gauge
+	DBConnectionsIdle   prometheus.Gauge
+	DBQueriesTotal      *prometheus.CounterVec
+	DBQueryDuration     *prometheus.HistogramVec
 
 	// Business metrics
-	VideosTotal           *prometheus.CounterVec
-	VideoProcessingTime   *prometheus.HistogramVec
-	CampaignsTotal        *prometheus.CounterVec
-	CampaignSuccess       *prometheus.CounterVec
-	MagicBrushRequests    *prometheus.CounterVec
+	VideosTotal         *prometheus.CounterVec
+	VideoProcessingTime *prometheus.HistogramVec
+	CampaignsTotal      *prometheus.CounterVec
+	CampaignSuccess     *prometheus.CounterVec
+	MagicBrushRequests  *prometheus.CounterVec
 
 	// System metrics
-	ErrorsTotal           *prometheus.CounterVec
-	PanicTotal            prometheus.Counter
+	ErrorsTotal *prometheus.CounterVec
+	PanicTotal  prometheus.Counter
 }
 
 // New creates and registers all Prometheus metrics
@@ -199,7 +199,7 @@ func (m *Metrics) HTTPMiddleware() gin.HandlerFunc {
 		// Record metrics
 		duration := time.Since(start).Seconds()
 		statusCode := strconv.Itoa(c.Writer.Status())
-		
+
 		labels := prometheus.Labels{
 			"method":      c.Request.Method,
 			"endpoint":    c.FullPath(),
@@ -223,7 +223,7 @@ func (m *Metrics) RecordAIRequest(model, promptKey, brushType, status, tenantID 
 	}
 
 	m.AIRequestsTotal.With(labels).Inc()
-	
+
 	durationLabels := prometheus.Labels{
 		"model":      model,
 		"prompt_key": promptKey,

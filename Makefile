@@ -114,27 +114,6 @@ deps-update: ## Update all dependencies
 	@go get -u ./...
 	@go mod tidy
 
-# Database targets
-migrate: ## Run database migrations
-	@echo "Running database migrations..."
-	@go run ./cmd/migrate -dsn=$(DATABASE_DSN) -dir=$(MIGRATIONS_DIR)
-
-migrate-create: ## Create a new migration file (usage: make migrate-create NAME=migration_name)
-	@echo "Creating migration: $(NAME)"
-	@migrate create -ext sql -dir $(MIGRATIONS_DIR) -seq $(NAME)
-
-migrate-up: ## Apply all pending migrations
-	@echo "Applying migrations..."
-	@migrate -path $(MIGRATIONS_DIR) -database $(DATABASE_DSN) up
-
-migrate-down: ## Rollback one migration
-	@echo "Rolling back migration..."
-	@migrate -path $(MIGRATIONS_DIR) -database $(DATABASE_DSN) down 1
-
-migrate-reset: ## Reset database (drop and recreate)
-	@echo "Resetting database..."
-	@migrate -path $(MIGRATIONS_DIR) -database $(DATABASE_DSN) drop -f
-	@migrate -path $(MIGRATIONS_DIR) -database $(DATABASE_DSN) up
 
 # Docker targets
 docker-build: ## Build Docker image
@@ -170,10 +149,9 @@ setup: ## Setup development environment
 	@echo "Setting up development environment..."
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	@go install golang.org/x/tools/cmd/goimports@latest
-	@go install github.com/securecodewarrior/gosec/v2/cmd/gosec@latest
-	@go install github.com/cosmtrek/air@latest
-	@go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
-	@echo "Development tools installed"
+       @go install github.com/securecodewarrior/gosec/v2/cmd/gosec@latest
+       @go install github.com/cosmtrek/air@latest
+       @echo "Development tools installed"
 
 install: build ## Install the binary to GOPATH/bin
 	@echo "Installing $(APP_NAME)..."

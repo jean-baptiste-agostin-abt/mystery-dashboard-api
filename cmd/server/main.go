@@ -10,11 +10,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/yourorg/mysteryfactory/internal/config"
-	"github.com/yourorg/mysteryfactory/internal/router"
-	"github.com/yourorg/mysteryfactory/pkg/db"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
-	"github.com/yourorg/mysteryfactory/pkg/metrics"
+	"github.com/jibe0123/mysteryfactory/internal/config"
+	"github.com/jibe0123/mysteryfactory/internal/router"
+	"github.com/jibe0123/mysteryfactory/pkg/db"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/pkg/metrics"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/jaeger"
@@ -75,9 +75,12 @@ func main() {
 	}
 	defer database.Close()
 
-	// Run migrations
-	if err := db.RunMigrations(cfg.DatabaseDSN); err != nil {
-		logger.Fatal("Failed to run migrations", "error", err)
+	// Auto migrate schema and seed initial data
+	if err := database.AutoMigrate(); err != nil {
+		logger.Fatal("Failed to run auto migrations", "error", err)
+	}
+	if err := db.Seed(database.DB, cfg); err != nil {
+		logger.Fatal("Failed to seed database", "error", err)
 	}
 
 	// Initialize router

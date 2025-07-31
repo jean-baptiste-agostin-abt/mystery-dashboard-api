@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourorg/mysteryfactory/internal/config"
-	"github.com/yourorg/mysteryfactory/pkg/db"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/internal/config"
+	"github.com/jibe0123/mysteryfactory/pkg/db"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 )
 
 // StatsHandler handles statistics and analytics requests

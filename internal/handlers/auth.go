@@ -6,11 +6,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/yourorg/mysteryfactory/internal/config"
-	"github.com/yourorg/mysteryfactory/internal/middleware"
-	"github.com/yourorg/mysteryfactory/internal/models"
-	"github.com/yourorg/mysteryfactory/pkg/db"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/internal/config"
+	"github.com/jibe0123/mysteryfactory/internal/middleware"
+	"github.com/jibe0123/mysteryfactory/internal/models"
+	"github.com/jibe0123/mysteryfactory/pkg/db"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 )
 
 // AuthHandler handles authentication-related requests

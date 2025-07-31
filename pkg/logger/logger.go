@@ -150,7 +150,7 @@ func (l *Logger) Sync() error {
 func (l *Logger) HTTPMiddleware() func(ctx context.Context, method, path string, statusCode int, duration float64, requestID string) {
 	return func(ctx context.Context, method, path string, statusCode int, duration float64, requestID string) {
 		logger := l.WithContext(ctx).WithRequestID(requestID)
-		
+
 		fields := []interface{}{
 			"method", method,
 			"path", path,

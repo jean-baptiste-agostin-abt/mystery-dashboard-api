@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourorg/mysteryfactory/internal/services"
-	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/jibe0123/mysteryfactory/internal/services"
+	"github.com/jibe0123/mysteryfactory/pkg/logger"
 )
 
 // AIHandler handles AI-related HTTP requests

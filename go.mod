@@ -1,4 +1,4 @@
-module github.com/yourorg/mysteryfactory
+module github.com/jibe0123/mysteryfactory
 
 go 1.24
 
@@ -12,6 +12,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	github.com/google/uuid v1.6.0
+	github.com/joho/godotenv v1.5.1
 	github.com/prometheus/client_golang v1.17.0
 	github.com/rs/cors v1.11.1
 	github.com/spf13/viper v1.17.0

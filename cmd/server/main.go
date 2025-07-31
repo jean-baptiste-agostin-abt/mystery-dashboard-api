@@ -14,6 +14,7 @@ import (
 	"github.com/yourorg/mysteryfactory/internal/router"
 	"github.com/yourorg/mysteryfactory/pkg/db"
 	"github.com/yourorg/mysteryfactory/pkg/logger"
+	"github.com/yourorg/mysteryfactory/pkg/metrics"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/jaeger"
@@ -64,6 +65,9 @@ func main() {
 		}
 	}()
 
+	// Initialize Prometheus metrics
+	m := metrics.New()
+
 	// Initialize database
 	database, err := db.New(cfg.DatabaseDSN)
 	if err != nil {
@@ -77,7 +81,7 @@ func main() {
 	}
 
 	// Initialize router
-	r := router.New(cfg, logger, database)
+	r := router.New(cfg, logger, database, m)
 
 	// Create HTTP server
 	srv := &http.Server{

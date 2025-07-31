@@ -14,8 +14,8 @@ import (
 	"github.com/yourorg/mysteryfactory/pkg/logger"
 	"github.com/yourorg/mysteryfactory/pkg/metrics"
 
-	ginSwagger "github.com/swaggo/gin-swagger"
 	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
@@ -33,7 +33,7 @@ func New(cfg *config.Config, logger *logger.Logger, db *db.DB, metrics *metrics.
 
 	// Global middleware
 	r.Use(gin.Recovery())
-	r.Use(middleware.CORS())
+	r.Use(middleware.CORS(cfg.CORSAllowedOrigins))
 	r.Use(middleware.RequestID())
 	r.Use(middleware.Logger(logger))
 	r.Use(otelgin.Middleware(cfg.ServiceName))
@@ -43,7 +43,7 @@ func New(cfg *config.Config, logger *logger.Logger, db *db.DB, metrics *metrics.
 	// Health check endpoint (no auth required)
 	r.GET("/health", handlers.HealthCheck(db))
 	r.GET("/ready", handlers.ReadinessCheck(db))
-	
+
 	// Metrics endpoint for Prometheus
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
@@ -58,13 +58,13 @@ func New(cfg *config.Config, logger *logger.Logger, db *db.DB, metrics *metrics.
 		logger.Error("Failed to initialize prompt service", "error", err)
 		panic(err)
 	}
-	
+
 	bedrockClient, err := aws.NewBedrockClient(nil, logger)
 	if err != nil {
 		logger.Error("Failed to initialize Bedrock client", "error", err)
 		panic(err)
 	}
-	
+
 	aiService := services.NewAIService(promptService, bedrockClient, logger, metrics)
 
 	// Initialize handlers
@@ -104,7 +104,7 @@ func New(cfg *config.Config, logger *logger.Logger, db *db.DB, metrics *metrics.
 				videos.DELETE("/:id", videoHandler.DeleteVideo)
 				videos.POST("/:id/upload", videoHandler.UploadVideo)
 				videos.GET("/:id/stats", statsHandler.GetVideoStats)
-				
+
 				// Publication routes
 				videos.POST("/:id/publish", videoHandler.PublishVideo)
 				videos.GET("/:id/publications", videoHandler.GetVideoPublications)
@@ -131,7 +131,7 @@ func New(cfg *config.Config, logger *logger.Logger, db *db.DB, metrics *metrics.
 				stats.GET("/dashboard", statsHandler.GetDashboardStats)
 				stats.GET("/performance", statsHandler.GetPerformanceStats)
 				stats.POST("/sync", statsHandler.SyncStats)
-				
+
 				// Enhanced analytics - ROI and engagement tracking
 				stats.GET("/roi", statsHandler.GetROIAnalytics)
 				stats.GET("/engagement", statsHandler.GetEngagementAnalytics)
@@ -142,7 +142,7 @@ func New(cfg *config.Config, logger *logger.Logger, db *db.DB, metrics *metrics.
 			{
 				// Magic Brush - real-time AI content generation
 				ai.POST("/magic-brush", aiHandler.GenerateMagicBrush)
-				
+
 				// Prompt management
 				ai.GET("/prompts", aiHandler.GetPrompts)
 				ai.POST("/test-prompt", aiHandler.TestPrompt)
@@ -208,17 +208,17 @@ func SetupRoutes(r *gin.Engine, cfg *config.Config, logger *logger.Logger, db *d
 
 // RouteInfo represents information about a route
 type RouteInfo struct {
-	Method      string `json:"method"`
-	Path        string `json:"path"`
-	Handler     string `json:"handler"`
+	Method      string   `json:"method"`
+	Path        string   `json:"path"`
+	Handler     string   `json:"handler"`
 	Middleware  []string `json:"middleware"`
-	Description string `json:"description"`
+	Description string   `json:"description"`
 }
 
 // GetRouteInfo returns information about all registered routes
 func GetRouteInfo(r *gin.Engine) []RouteInfo {
 	var routes []RouteInfo
-	
+
 	for _, route := range r.Routes() {
 		routeInfo := RouteInfo{
 			Method:  route.Method,
@@ -227,7 +227,7 @@ func GetRouteInfo(r *gin.Engine) []RouteInfo {
 		}
 		routes = append(routes, routeInfo)
 	}
-	
+
 	return routes
 }
 

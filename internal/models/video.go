@@ -7,26 +7,36 @@ import (
 
 // Video represents a video in the system
 type Video struct {
-	ID           string         `json:"id" gorm:"primaryKey;type:varchar(36)"`
-	TenantID     string         `json:"tenant_id" gorm:"type:varchar(36);not null;index:idx_tenant_user"`
-	UserID       string         `json:"user_id" gorm:"type:varchar(36);not null;index:idx_tenant_user"`
-	Title        string         `json:"title" gorm:"type:varchar(255);not null"`
-	Description  string         `json:"description" gorm:"type:text"`
-	FileName     string         `json:"file_name" gorm:"type:varchar(255);not null"`
-	FilePath     string         `json:"file_path" gorm:"type:varchar(500)"`
-	FileSize     int64          `json:"file_size" gorm:"not null"`
-	Duration     int            `json:"duration" gorm:"default:0"` // in seconds
-	Format       string         `json:"format" gorm:"type:varchar(50)"`
-	Resolution   string         `json:"resolution" gorm:"type:varchar(50)"`
-	Status       string         `json:"status" gorm:"type:varchar(50);not null;index:idx_status;default:'uploading'"`
-	Metadata     string         `json:"metadata" gorm:"type:json"` // JSON string
-	ThumbnailURL string         `json:"thumbnail_url" gorm:"type:varchar(500)"`
-	S3Key        string         `json:"s3_key" gorm:"type:varchar(500)"`
-	S3Bucket     string         `json:"s3_bucket" gorm:"type:varchar(255)"`
-	Tags         string         `json:"tags" gorm:"type:json"` // JSON array as string
-	CreatedAt    time.Time      `json:"created_at" gorm:"autoCreateTime"`
-	UpdatedAt    time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
-	DeletedAt    gorm.DeletedAt `json:"deleted_at,omitempty" gorm:"index"`
+	ID           string `json:"id" gorm:"primaryKey;type:varchar(36)"`
+	TenantID     string `json:"tenant_id" gorm:"type:varchar(36);not null;index:idx_tenant_user"`
+	UserID       string `json:"user_id" gorm:"type:varchar(36);not null;index:idx_tenant_user"`
+	Title        string `json:"title" gorm:"type:varchar(255);not null"`
+	Description  string `json:"description" gorm:"type:text"`
+	FileName     string `json:"file_name" gorm:"type:varchar(255);not null"`
+	FilePath     string `json:"file_path" gorm:"type:varchar(500)"`
+	FileSize     int64  `json:"file_size" gorm:"not null"`
+	Duration     int    `json:"duration" gorm:"default:0"` // in seconds
+	Format       string `json:"format" gorm:"type:varchar(50)"`
+	Resolution   string `json:"resolution" gorm:"type:varchar(50)"`
+	Status       string `json:"status" gorm:"type:varchar(50);not null;index:idx_status;default:'uploading'"`
+	Metadata     string `json:"metadata" gorm:"type:json"` // JSON string
+	ThumbnailURL string `json:"thumbnail_url" gorm:"type:varchar(500)"`
+	S3Key        string `json:"s3_key" gorm:"type:varchar(500)"`
+	S3Bucket     string `json:"s3_bucket" gorm:"type:varchar(255)"`
+	FileURL      string `json:"file_url" gorm:"type:varchar(500)"`
+
+	// IDs returned by partner platforms
+	YouTubeID       string `json:"youtube_id" gorm:"type:varchar(100)"`
+	TikTokID        string `json:"tiktok_id" gorm:"type:varchar(100)"`
+	InstagramID     string `json:"instagram_id" gorm:"type:varchar(100)"`
+	FacebookID      string `json:"facebook_id" gorm:"type:varchar(100)"`
+	TwitterMediaID  int64  `json:"twitter_media_id"`
+	SnapchatMediaID string `json:"snapchat_media_id" gorm:"type:varchar(100)"`
+
+	Tags      string         `json:"tags" gorm:"type:json"` // JSON array as string
+	CreatedAt time.Time      `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at,omitempty" gorm:"index"`
 }
 
 // VideoStatus defines video processing statuses

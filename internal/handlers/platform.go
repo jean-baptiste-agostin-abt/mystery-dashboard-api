@@ -27,7 +27,7 @@ func NewPlatformHandler(cfg *config.Config, logger *logger.Logger, db *db.DB) *P
 // @Tags platforms
 // @Accept json
 // @Produce json
-// @Param platform path string true "Platform name" Enums(youtube,tiktok,instagram,facebook,twitter,linkedin)
+// @Param platform path string true "Platform name" Enums(youtube,tiktok,instagram,facebook,twitter,linkedin,snapchat)
 // @Success 200 {object} SuccessResponse
 // @Failure 400 {object} ErrorResponse
 // @Failure 401 {object} ErrorResponse
@@ -71,6 +71,8 @@ func (h *PlatformHandler) HandleWebhook(c *gin.Context) {
 		h.handleTwitterWebhook(c, body)
 	case "linkedin":
 		h.handleLinkedInWebhook(c, body)
+	case "snapchat":
+		h.handleSnapchatWebhook(c, body)
 	default:
 		h.respondWithError(c, http.StatusBadRequest, "Unsupported platform")
 		return
@@ -323,6 +325,19 @@ func (h *PlatformHandler) handleLinkedInWebhook(c *gin.Context, body []byte) {
 	})
 }
 
+func (h *PlatformHandler) handleSnapchatWebhook(c *gin.Context, body []byte) {
+	// TODO: Implement Snapchat-specific webhook handling
+	h.logger.Info("Processing Snapchat webhook", "body_size", len(body))
+
+	// Parse Snapchat webhook payload
+	// Handle story status updates, analytics updates, etc.
+
+	h.respondWithSuccess(c, "Snapchat webhook processed", gin.H{
+		"platform":  "snapchat",
+		"processed": true,
+	})
+}
+
 // generateAuthURL generates OAuth URL for platform authentication
 func (h *PlatformHandler) generateAuthURL(platform, userID, tenantID string) string {
 	// TODO: Implement actual OAuth URL generation
@@ -333,6 +348,7 @@ func (h *PlatformHandler) generateAuthURL(platform, userID, tenantID string) str
 		"facebook":  "https://www.facebook.com/v18.0/dialog/oauth",
 		"twitter":   "https://twitter.com/i/oauth2/authorize",
 		"linkedin":  "https://www.linkedin.com/oauth/v2/authorization",
+		"snapchat":  "https://businessapi.snapchat.com/oauth/authorize",
 	}
 
 	baseURL, exists := baseURLs[platform]

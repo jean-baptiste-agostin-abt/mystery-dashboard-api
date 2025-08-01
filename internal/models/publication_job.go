@@ -49,12 +49,13 @@ const (
 	PlatformFacebook  Platform = "facebook"
 	PlatformTwitter   Platform = "twitter"
 	PlatformLinkedIn  Platform = "linkedin"
+	PlatformSnapchat  Platform = "snapchat"
 )
 
 // CreatePublicationJobRequest represents the request to create a publication job
 type CreatePublicationJobRequest struct {
 	VideoID     string                 `json:"video_id" validate:"required"`
-	Platform    string                 `json:"platform" validate:"required,oneof=youtube tiktok instagram facebook twitter linkedin"`
+	Platform    string                 `json:"platform" validate:"required,oneof=youtube tiktok instagram facebook twitter linkedin snapchat"`
 	Config      map[string]interface{} `json:"config,omitempty"`
 	ScheduledAt *time.Time             `json:"scheduled_at,omitempty"`
 	MaxRetries  int                    `json:"max_retries,omitempty"`
